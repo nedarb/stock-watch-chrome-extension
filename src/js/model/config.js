@@ -1,10 +1,10 @@
 // save the new config
 const testWatchlist = [
-  {symbol: 'TWTR', desc: 'Twitter Inc.', market: 'NYSE', symboleKey: 'NYSE:TWTR'},
-  {symbol: 'LNKD', desc: 'LinkedIn Corp.', market: 'NYSE', symboleKey: 'NYSE:LNKD'},
-  {symbol: 'GOOGL', desc: 'Google Inc.', market: 'NASDAQ', symboleKey: 'NASDAQ:GOOGL'},
-  {symbol: 'MSFT', desc: 'Microsoft Corporation', market: 'NASDAQ', symboleKey: 'NASDAQ:MSFT'},
-  {symbol: 'FB', desc: 'Facebook Inc.', market: 'NASDAQ', symboleKey: 'NASDAQ:FB'},
+  {symbol: 'TWTR', desc: 'Twitter Inc.', market: 'NYSE', symbolKey: 'NYSE:TWTR'},
+  {symbol: 'LNKD', desc: 'LinkedIn Corp.', market: 'NYSE', symbolKey: 'NYSE:LNKD'},
+  {symbol: 'GOOGL', desc: 'Google Inc.', market: 'NASDAQ', symbolKey: 'NASDAQ:GOOGL'},
+  {symbol: 'MSFT', desc: 'Microsoft Corporation', market: 'NASDAQ', symbolKey: 'NASDAQ:MSFT'},
+  {symbol: 'FB', desc: 'Facebook Inc.', market: 'NASDAQ', symbolKey: 'NASDAQ:FB'},
 ];
 
 const defaultConfig = {
@@ -77,6 +77,13 @@ export const getFontSize = (callback) => {
   }
 }
 
+export const setWatchlist = (newWatchlist, callback) => {
+  const newConfig = Object.assign({}, config, {watchlist: newWatchlist});
+  chrome.storage.sync.set({APP_STORAGE_KEY: newConfig}, () => {
+    config = newConfig; // update the config in memory
+    callback(config.watchlist); // pass back the new watchlist
+  });
+}
 
 const saveSettings = (config) => {
   chrome.storage.sync.set(APP_STORAGE_KEY, () => {

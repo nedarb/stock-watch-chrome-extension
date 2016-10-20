@@ -1,6 +1,6 @@
 import AutoComplete from 'material-ui/AutoComplete';
 import CircularProgress from 'material-ui/CircularProgress';
-import { getWatchlist } from '../../model/config.js';
+import { getWatchlist, setWatchlist } from '../../model/config.js';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -34,6 +34,7 @@ class OptionsWatchlistPane extends React.Component {
     super(props);
     this.state = {
       watchlist: null,
+      selectedSymbolKeys: [],
     };
   }
 
@@ -41,9 +42,35 @@ class OptionsWatchlistPane extends React.Component {
     getWatchlist((watchlist) => this.setState({watchlist}));
   }
 
+  _handleRowSelected = (selectedRows) => {
+    const selectedSymbolKeys = [];
+    if (selectedRows === 'all') {
+      this.state.watchlist.forEach((symbol) =>
+        selectedSymbolKeys.push(symbol.symbolKey)
+      );
+    } else if (selectedRows !== 'none') {
+      selectedRows.forEach((index) => {
+        selectedSymbolKeys.push(this.state.watchlist[index].symbolKey);
+      })
+    }
+    this.setState({selectedSymbolKeys});
+  }
+
+  _handleRemoveSymbols = () => {
+    const newWatchlist = [];
+    this.state.watchlist.forEach((symbol) => {
+      if (!this.state.selectedSymbolKeys.includes(symbol.symbolKey)) {
+        newWatchlist.push(symbol);
+      }
+    })
+    setWatchlist(newWatchlist, (watchlist) => this.setState({watchlist}));
+  }
+
   renderWatchlistTable() {
     const watchlistRows = this.state.watchlist.map(item =>
-      <TableRow key={item.symboleKey}>
+      <TableRow
+        key={item.symbolKey}
+        selected={this.state.selectedSymbolKeys.includes(item.symbolKey)}>
         <TableRowColumn>{item.symbol}</TableRowColumn>
         <TableRowColumn>{item.desc}</TableRowColumn>
         <TableRowColumn>{item.market}</TableRowColumn>
@@ -51,15 +78,15 @@ class OptionsWatchlistPane extends React.Component {
     );
     return this.state.watchlist.length === 0
       ? null
-      : <Table multiSelectable={true}>
-          <TableHeader>
+      : <Table multiSelectable={true} onRowSelection={this._handleRowSelected}>
+          <TableHeader displaySelectAll={false}>
             <TableRow>
               <TableHeaderColumn>Symbol</TableHeaderColumn>
               <TableHeaderColumn>Name</TableHeaderColumn>
               <TableHeaderColumn>Market</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody deselectOnClickaway={false}>
             {watchlistRows}
           </TableBody>
         </Table>;
@@ -88,10 +115,9 @@ class OptionsWatchlistPane extends React.Component {
         {this.renderWatchlistTable()}
         <span className='footer'>
           <FloatingActionButton
+            disabled={this.state.selectedSymbolKeys.length === 0}
             className="button"
-            onClick={() => {
-              console.log('trigger remove event');
-            }}>
+            onClick={this._handleRemoveSymbols}>
             <ContentRemove />
           </FloatingActionButton>
           <FloatingActionButton
