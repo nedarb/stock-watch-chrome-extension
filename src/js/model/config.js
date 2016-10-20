@@ -1,23 +1,31 @@
 // save the new config
+const testWatchlist = [
+  {symbol: 'TWTR', desc: 'Twitter Inc.', market: 'NYSE', symboleKey: 'NYSE:TWTR'},
+  {symbol: 'LNKD', desc: 'LinkedIn Corp.', market: 'NYSE', symboleKey: 'NYSE:LNKD'},
+  {symbol: 'GOOGL', desc: 'Google Inc.', market: 'NASDAQ', symboleKey: 'NASDAQ:GOOGL'},
+  {symbol: 'MSFT', desc: 'Microsoft Corporation', market: 'NASDAQ', symboleKey: 'NASDAQ:MSFT'},
+  {symbol: 'FB', desc: 'Facebook Inc.', market: 'NASDAQ', symboleKey: 'NASDAQ:FB'},
+];
+
 const defaultConfig = {
-  watchlist: [],
-  columns: {
-    symbol: {label: 'symbol', value: true},
-    currentPrice: {label: 'current price', value: true},
-    changeByValue: {label: 'change by value', value: true},
-    changeByPercentage: {label: 'change by percentage', value: true},
-    previouslyClosedPrice: {label: 'previously closed price', value: false},
-    openPrice: {label: 'open price', value: false},
-    dayLow: {label: 'day low', value: false},
-    dayHigh: {label: 'day high', value: false},
-    fiftyTwoWeekLow: {label: '52 week low', value: false},
-    fiftyTwoWeekHigh: {label: '52 week high', value: false},
-    marketCapital: {label: 'market capital', value: false},
-    pe: {label: 'P/E', value: false},
-    beta: {label: 'Beta', value: false},
-    eps: {label: 'EPS', value: false},
-    instOwned: {label: 'institutionally owned', value: false},
-  },
+  watchlist: testWatchlist,
+  columns: [
+    {key: 'symbol', label: 'symbol', checked: true},
+    {key:'currentPrice', label: 'current price', checked: true},
+    {key: 'changeByValue', label: 'change by value', checked: true},
+    {key: 'changeByPercentage', label: 'change by percentage', checked: true},
+    {key: 'previouslyClosedPrice', label: 'previously closed price', checked: false},
+    {key: 'openPrice', label: 'open price', checked: false},
+    {key: 'dayLow', label: 'day low', checked: false},
+    {key: 'dayHigh', label: 'day high', checked: false},
+    {key: 'fiftyTwoWeekLow', label: '52 week low', checked: false},
+    {key: 'fiftyTwoWeekHigh', label: '52 week high', checked: false},
+    {key: 'marketCapital', label: 'market capital', checked: false},
+    {key: 'pe', label: 'P/E', checked: false},
+    {key: 'beta', label: 'Beta', checked: false},
+    {key: 'eps', label: 'EPS', checked: false},
+    {key: 'instOwned', label: 'institutionally owned', checked: false},
+  ],
   fontSize: 12,
 };
 
