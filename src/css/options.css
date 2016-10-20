@@ -1,0 +1,34 @@
+html, body {
+  /*background-color: #1976D2;*/
+  height: 100%;
+  margin: 0px;
+  text-align: center;
+  padding: 0px;
+}
+
+#options-root-container,
+#options-paper {
+  display: inline-block;
+  margin: 20px;
+  padding: 20px;
+  width: 500px;
+}
+
+#options-watchlist td {
+  overflow: auto;
+}
+
+#options-watchlist .footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#options-watchlist .footer .button {
+  margin: 12px;
+}
+
+#options-display {
+  text-align: center;
+  width: 200px;
+  margin: 20px auto 0;
+}

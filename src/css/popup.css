@@ -1,0 +1,43 @@
+/* The CSS rules for the popup, mainly about customizing table attributes. */
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr {
+  text-align: center;
+}
+
+tr:not(:last-child) {
+  border-bottom: 1px solid #bdbdbd;
+}
+
+tr:hover:not(#table-header) {
+  background-color: #f5f5f5;
+}
+
+#table-header {
+  font-weight: 500;
+}
+
+td, th {
+  padding: 4px 0;
+}
+
+td:not(:last-child), th:not(:last-child) {
+  padding-right: 8px;
+}
+
+.color-green {
+  color: #4CAF50; /* green500 */
+}
+
+.color-red {
+  color: #F44336; /* red500*/
+}
+
+/*good color #0096cc*/
