@@ -111,6 +111,7 @@ class OptionsWatchlistPane extends React.Component {
         autoCompleteErrorText:
           <span>This symbol has already been in your watchlist.</span>,
       })
+      autoCompleteRef.focus();
       return;
     }
 
@@ -138,6 +139,7 @@ class OptionsWatchlistPane extends React.Component {
           autoCompleteErrorText: null,
           watchlistSymbolKeys,
         });
+        autoCompleteRef.focus();
       });
     });
   }
