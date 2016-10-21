@@ -6,6 +6,7 @@ import ContentRemove from 'material-ui/svg-icons/content/remove';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import { lightGreen500 } from 'material-ui/styles/colors';
 import React from 'react';
+import request from '../../utils/request.js';
 import Spinner from '../core/Spinner.jsx';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
@@ -39,7 +40,21 @@ class OptionsWatchlistPane extends React.Component {
   }
 
   componentDidMount() {
-    getWatchlist((watchlist) => this.setState({watchlist}));
+    getWatchlist((watchlistSymbolKeys) => {
+      // Query the data for the given watchlist
+      request.getFullData(watchlistSymbolKeys, (data) => {
+        const watchlist = [];
+        data.forEach((datum) => {
+          watchlist.push({
+            symbol: datum.t,
+            name: datum.name,
+            market: datum.e,
+            symbolKey: datum.e + ':' + datum.t,
+          });
+        });
+        this.setState({watchlist});
+      });
+    });
   }
 
   _handleRowSelected = (selectedRows) => {
@@ -57,13 +72,22 @@ class OptionsWatchlistPane extends React.Component {
   }
 
   _handleRemoveSymbols = () => {
-    const newWatchlist = [];
+    const newWatchlistSymbolKeys = [];
     this.state.watchlist.forEach((symbol) => {
       if (!this.state.selectedSymbolKeys.includes(symbol.symbolKey)) {
-        newWatchlist.push(symbol);
+        newWatchlistSymbolKeys.push(symbol.symbolKey);
       }
     })
-    setWatchlist(newWatchlist, (watchlist) => this.setState({watchlist}));
+    setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
+      // update the watchlist data
+      const newWatchlist = [];
+      this.state.watchlist.forEach((symbol) => {
+        if (watchlistSymbolKeys.includes(symbol.symbolKey)) {
+          newWatchlist.push(symbol);
+        }
+      });
+      this.setState({watchlist: newWatchlist, selectedSymbolKeys: []});
+    });
   }
 
   renderWatchlistTable() {
@@ -72,7 +96,7 @@ class OptionsWatchlistPane extends React.Component {
         key={item.symbolKey}
         selected={this.state.selectedSymbolKeys.includes(item.symbolKey)}>
         <TableRowColumn>{item.symbol}</TableRowColumn>
-        <TableRowColumn>{item.desc}</TableRowColumn>
+        <TableRowColumn>{item.name}</TableRowColumn>
         <TableRowColumn>{item.market}</TableRowColumn>
       </TableRow>
     );

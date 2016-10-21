@@ -1,11 +1,4 @@
-// save the new config
-const testWatchlist = [
-  {symbol: 'TWTR', desc: 'Twitter Inc.', market: 'NYSE', symbolKey: 'NYSE:TWTR'},
-  {symbol: 'LNKD', desc: 'LinkedIn Corp.', market: 'NYSE', symbolKey: 'NYSE:LNKD'},
-  {symbol: 'GOOGL', desc: 'Google Inc.', market: 'NASDAQ', symbolKey: 'NASDAQ:GOOGL'},
-  {symbol: 'MSFT', desc: 'Microsoft Corporation', market: 'NASDAQ', symbolKey: 'NASDAQ:MSFT'},
-  {symbol: 'FB', desc: 'Facebook Inc.', market: 'NASDAQ', symbolKey: 'NASDAQ:FB'},
-];
+const testWatchlist = ['NYSE:TWTR', 'NYSE:LNKD', 'NASDAQ:GOOGL', 'NASDAQ:MSFT', 'NASDAQ:FB'];
 
 const defaultConfig = {
   watchlist: testWatchlist,
