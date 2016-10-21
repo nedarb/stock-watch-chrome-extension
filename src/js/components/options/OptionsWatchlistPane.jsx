@@ -8,7 +8,14 @@ import { lightGreen500 } from 'material-ui/styles/colors';
 import React from 'react';
 import request from '../../utils/request.js';
 import Spinner from '../core/Spinner.jsx';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
 const dataSource = [
   {text: 'TWTR, Twitter Inc.', value: 'NYSE:TWTR'},
@@ -36,12 +43,15 @@ class OptionsWatchlistPane extends React.Component {
     this.state = {
       watchlist: null,
       selectedSymbolKeys: [],
+      watchlistSymbolKeys: null,
+      autoCompleteErrorText: null,
     };
   }
 
   componentDidMount() {
     getWatchlist((watchlistSymbolKeys) => {
       // Query the data for the given watchlist
+      this.setState({watchlistSymbolKeys});
       request.getFullData(watchlistSymbolKeys, (data) => {
         const watchlist = [];
         data.forEach((datum) => {
@@ -86,7 +96,49 @@ class OptionsWatchlistPane extends React.Component {
           newWatchlist.push(symbol);
         }
       });
-      this.setState({watchlist: newWatchlist, selectedSymbolKeys: []});
+      this.setState({
+        watchlist: newWatchlist,
+        selectedSymbolKeys: [],
+        watchlistSymbolKeys: watchlistSymbolKeys,
+      });
+    });
+  }
+
+  _handleEnterNewSymbol = (autoCompleteItem) => {
+    const symbolKeyToAdd = autoCompleteItem.value;
+    if (this.state.watchlistSymbolKeys.includes(symbolKeyToAdd)) {
+      this.setState({
+        autoCompleteErrorText:
+          <span>This symbol has already been in your watchlist.</span>,
+      })
+      return;
+    }
+
+    // TODO add verification for the new symbol
+
+    const newWatchlistSymbolKeys = [
+      symbolKeyToAdd,
+      ...this.state.watchlistSymbolKeys,
+    ];
+    setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
+      // update the watchlist data
+      const newWatchlist = [];
+      request.getFullData([symbolKeyToAdd], (data) => {
+        const watchlist = [];
+        data.forEach((datum) => {
+          watchlist.push({
+            symbol: datum.t,
+            name: datum.name,
+            market: datum.e,
+            symbolKey: datum.e + ':' + datum.t,
+          });
+        });
+        this.setState({
+          watchlist: watchlist.concat(this.state.watchlist),
+          autoCompleteErrorText: null,
+          watchlistSymbolKeys,
+        });
+      });
     });
   }
 
@@ -125,14 +177,12 @@ class OptionsWatchlistPane extends React.Component {
       <div id="options-watchlist">
         <AutoComplete
           dataSource={dataSource}
+          errorText={this.state.autoCompleteErrorText}
           floatingLabelText="Add stock to watchlist"
           filter={AutoComplete.caseInsensitiveFilter}
           fullWidth={true}
           maxSearchResults={5}
-          onNewRequest={(chosenRequest: string, index: number) => {
-            console.log(chosenRequest);
-            console.log(index);
-          }}
+          onNewRequest={this._handleEnterNewSymbol}
           ref={(ref) => autoCompleteRef = ref}
           {...textFieldStyle}
         />

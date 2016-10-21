@@ -36,7 +36,6 @@ const initConfig = (callback) => {
       config = items.APP_STORAGE_KEY;
       callback(config);
     }
-
   });
 }
 
