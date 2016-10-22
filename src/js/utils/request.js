@@ -76,7 +76,26 @@ const getFullData = (symbols, callback) => {
   })
   .catch((error) => {
     callback(error.message);
-  });;
+  });
 };
 
-module.exports = {getData, getFullData};
+const getAutoCompleteDataSource = (keyword, callback) => {
+  axios.get('https://www.google.com/finance/match', {
+    params: {
+      matchtype: 'matchall',
+      q: keyword,
+    }
+  })
+  .then((response) => {
+    let suggestions = null;
+    if (response && response.data && response.data.matches) {
+      suggestions = response.data.matches;
+    }
+    callback(suggestions);
+  })
+  .catch((error) => {
+    callback(error.message);
+  });
+}
+
+module.exports = {getData, getFullData, getAutoCompleteDataSource};

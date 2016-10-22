@@ -5,6 +5,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import { lightGreen500 } from 'material-ui/styles/colors';
+import MenuItem from 'material-ui/MenuItem';
 import React from 'react';
 import request from '../../utils/request.js';
 import Spinner from '../core/Spinner.jsx';
@@ -16,14 +17,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-
-const dataSource = [
-  {text: 'TWTR, Twitter Inc.', value: 'NYSE:TWTR'},
-  {text: 'LNKD, LinkedIn Corp.', value: 'NYSE:LNKD'},
-  {text: 'GOOGL, Google Inc.', value: 'NASDAQ:GOOGL'},
-  {text: 'MSFT, Microsoft Corporation', value: 'NASDAQ:MSFT'},
-  {text: 'FB, Facebook Inc.', value: 'NASDAQ:FB'},
-];
 
 const textFieldStyle = {
   floatingLabelFocusStyle: {
@@ -46,6 +39,7 @@ class OptionsWatchlistPane extends React.Component {
       selectedSymbolKeys: [],
       watchlistSymbolKeys: null,
       autoCompleteErrorText: null,
+      autoCompleteDataSource: [],
     };
   }
 
@@ -124,8 +118,8 @@ class OptionsWatchlistPane extends React.Component {
     });
   }
 
-  _handleEnterNewSymbol = (autoCompleteItem) => {
-    const symbolKeyToAdd = autoCompleteItem.value;
+  _handleEnterNewSymbol = (autoCompleteItem, index, value) => {
+    const symbolKeyToAdd = autoCompleteItem.key;
     if (this.state.watchlistSymbolKeys.includes(symbolKeyToAdd)) {
       this.setState({
         autoCompleteErrorText:
@@ -162,6 +156,27 @@ class OptionsWatchlistPane extends React.Component {
         });
         autoCompleteRef.focus();
       });
+    });
+  }
+
+  _handleAutoCompleteType = (text) => {
+    request.getAutoCompleteDataSource(text, (suggestions) => {
+      // convert the suggestion array to dataSource format
+      if (!Array.isArray(suggestions)) {
+        this.setState({autoCompleteDataSource: []});
+        return;
+      }
+      const autoCompleteDataSource = suggestions.map((suggestion) => {
+        const text = suggestion.t + ', ' + suggestion.n;
+        const value =
+          <MenuItem
+            primaryText={text}
+            secondaryText={suggestion.e}
+            value={suggestion.e + ':' + suggestion.t}
+          />
+        return {text, value, key: suggestion.e + ':' + suggestion.t};
+      })
+      this.setState({autoCompleteDataSource});
     });
   }
 
@@ -205,13 +220,14 @@ class OptionsWatchlistPane extends React.Component {
     return (
       <div id="options-watchlist">
         <AutoComplete
-          dataSource={dataSource}
+          dataSource={this.state.autoCompleteDataSource}
           errorText={this.state.autoCompleteErrorText}
           floatingLabelText="Add stock to watchlist"
           filter={AutoComplete.caseInsensitiveFilter}
           fullWidth={true}
           maxSearchResults={5}
           onNewRequest={this._handleEnterNewSymbol}
+          onUpdateInput={this._handleAutoCompleteType}
           ref={(ref) => autoCompleteRef = ref}
           {...textFieldStyle}
         />

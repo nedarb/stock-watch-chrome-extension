@@ -5,7 +5,8 @@
   "permissions": [
     "webRequest",
     "storage",
-    "http://finance.google.com/"
+    "http://finance.google.com/",
+    "https://www.google.com/finance/"
   ],
   "browser_action": {
       "default_title": "Real Time Stock Quote",
