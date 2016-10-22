@@ -16,6 +16,7 @@ class Popup extends React.Component {
     this.state = {
       columns: null,
       data: null,
+      fontSize: null,
      };
   }
 
@@ -32,6 +33,7 @@ class Popup extends React.Component {
         );
       });
     });
+    config.getFontSize((fontSize) => this.setState({fontSize}));
   }
 
   componentWillUnmount() {
@@ -39,9 +41,10 @@ class Popup extends React.Component {
   }
 
   render() {
+    const fontSize = this.state.fontSize || 12;
     return (
       <MuiThemeProvider>
-        <div>
+        <div style={{fontSize}}>
           <PopupTable {...this.state} />
         </div>
       </MuiThemeProvider>
