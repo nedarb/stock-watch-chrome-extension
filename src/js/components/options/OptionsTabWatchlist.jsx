@@ -134,7 +134,7 @@ class OptionsTabWatchlist extends React.Component {
     config.setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
       // update the watchlist data
       const newWatchlist = [];
-      cache.getData([symbolKeyToAdd], (data) => {
+      cache.getData(watchlistSymbolKeys, (data) => {
         if (!Array.isArray(data) && data.hasOwnProperty(error)) {
           this.setState({
             autoCompleteErrorText:
@@ -152,7 +152,7 @@ class OptionsTabWatchlist extends React.Component {
           });
         });
         this.setState({
-          watchlist: watchlist.concat(this.state.watchlist),
+          watchlist,
           watchlistErrorType: null,
           autoCompleteErrorText: null,
           watchlistSymbolKeys,

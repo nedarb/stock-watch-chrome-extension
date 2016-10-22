@@ -45,6 +45,15 @@ const updateDataInCache = (symbolKeys, callback) => {
   });
 };
 
+// We need this function to maintain the order of the original symbol list.
+const retrieveFromCache = (symbolKeys) => {
+  const data = [];
+  symbolKeys.forEach((symbolKey) => {
+      data.push(Object.assign({}, cache.get(symbolKey)));
+  });
+  return data;
+}
+
 const getData = (symbolKeys, callback) => {
   const fullFetchSymbolKeys = [];
   const minimalFetchSymbolKeys = [];
@@ -61,7 +70,7 @@ const getData = (symbolKeys, callback) => {
       if (cache.size === 0 && error) {
         callback({error});
       }
-      callback([...cache.values()]);
+      callback(retrieveFromCache(symbolKeys));
     })
   } else {
     request.getFullData(fullFetchSymbolKeys, (data) => {
@@ -81,7 +90,7 @@ const getData = (symbolKeys, callback) => {
         if (cache.size === 0 && error) {
           callback({error});
         }
-        callback([...cache.values()]);
+        callback(retrieveFromCache(symbolKeys));
       })
     });
   }
