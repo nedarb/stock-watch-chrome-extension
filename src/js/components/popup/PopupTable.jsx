@@ -8,12 +8,12 @@ const PopupTable = (props) => {
   if (!props.data) {
     return <Spinner />;
   }
-  if (!Array.isArray(props.data)) {
+  if (!Array.isArray(props.data) && props.data.hasOwnProperty('error')) {
     // if the data is not an array, it is an error
     const { ErrorType } = require('../core/ErrorPage.jsx');
     const ErrorPage = require('../core/ErrorPage.jsx').default;
     let type = null;
-    switch(props.data) {
+    switch(props.data.error.message) {
       case 'Network Error':
         type = ErrorType.NETWORK;
     }
@@ -24,7 +24,7 @@ const PopupTable = (props) => {
   const tableHeaders = [];
   props.columns.forEach((column) => {
     if (column.checked) {
-      tableHeaders.push(<th>{column.popupLabel}</th>);
+      tableHeaders.push(<th key={column.key}>{column.popupLabel}</th>);
     }
   })
 
@@ -33,7 +33,7 @@ const PopupTable = (props) => {
       <PopupTableRow
         columns={props.columns}
         data={datum}
-        key={datum.symbolKey}
+        key={datum.id}
       />
   );
   return (

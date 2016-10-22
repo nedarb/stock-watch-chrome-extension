@@ -1,4 +1,5 @@
 import AutoComplete from 'material-ui/AutoComplete';
+import cache from '../../utils/cache.js';
 import CircularProgress from 'material-ui/CircularProgress';
 import config from '../../model/config.js';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -46,7 +47,7 @@ class OptionsTabWatchlist extends React.Component {
   componentDidMount() {
     config.getWatchlist((watchlistSymbolKeys) => {
       // Query the data for the given watchlist
-      request.getFullData(watchlistSymbolKeys, (data) => {
+      cache.getData(watchlistSymbolKeys, (data) => {
         if (Array.isArray(data)) {
           const watchlist = [];
           data.forEach((datum) => {
@@ -67,16 +68,11 @@ class OptionsTabWatchlist extends React.Component {
 
         // error handling
         const { ErrorType } = require('../core/ErrorPage.jsx');
-        if (data === 'Network Error') {
-          this.setState({
-            watchlistErrorType: ErrorType.NETWORK,
-          });
-        } else {
-          // TODO provide a friendly way to report errors
-          this.setState({
-            watchlistErrorType: ErrorType.UNKNOWN,
-          });
+        let watchlistErrorType = ErrorType.UNKNOWN;
+        if (data.error.message === 'Network Error') {
+          watchlistErrorType = ErrorType.NETWORK;
         }
+        this.setState({watchlistErrorType});
       });
     });
   }
@@ -138,7 +134,14 @@ class OptionsTabWatchlist extends React.Component {
     config.setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
       // update the watchlist data
       const newWatchlist = [];
-      request.getFullData([symbolKeyToAdd], (data) => {
+      cache.getData([symbolKeyToAdd], (data) => {
+        if (!Array.isArray(data) && data.hasOwnProperty(error)) {
+          this.setState({
+            autoCompleteErrorText:
+              <span>Something went wrong, please try again later.</span>,
+          })
+          return;
+        }
         const watchlist = [];
         data.forEach((datum) => {
           watchlist.push({

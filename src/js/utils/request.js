@@ -1,11 +1,5 @@
 import axios from 'axios';
 
-/**
- * Get stock quotes for the given symbols, and pass the fetched data back to
- * callback.
- * @param {string[]} symboles - symboles of the stocks to query
- * @param {Function} callback - callback to which the quote data will be passed
- */
 const getData = (symbols, callback) => {
   axios.get('http://finance.google.com/finance/info', {
     params: {
@@ -38,7 +32,7 @@ const getData = (symbols, callback) => {
     callback(data);
   })
   .catch((error) => {
-    callback(error.message);
+    callback({error});
   });
 };
 
@@ -70,11 +64,12 @@ const getFullData = (symbols, callback) => {
       datum.beta = +datum.beta;
       datum.eps = +datum.eps;
       datum.pcls_fix = +datum.pcls_fix;
+      datum.s = +datum.s;
     })
     callback(data);
   })
   .catch((error) => {
-    callback(error.message);
+    callback({error});
   });
 };
 
@@ -93,7 +88,7 @@ const getAutoCompleteDataSource = (keyword, callback) => {
     callback(suggestions);
   })
   .catch((error) => {
-    callback(error.message);
+    callback({error});
   });
 }
 

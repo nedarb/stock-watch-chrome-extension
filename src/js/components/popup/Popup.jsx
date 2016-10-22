@@ -3,7 +3,7 @@ import config from '../../model/config.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PopupTable from './PopupTable.jsx';
 import React from 'react';
-import request from '../../utils/request.js';
+import cache from '../../utils/cache.js';
 
 const DATA_FETCH_INTERVAL = 3000;
 
@@ -25,7 +25,7 @@ class Popup extends React.Component {
       this.setState({columns});
       config.getWatchlist((watchlistSymbolKeys) => {
         this._timer = setInterval(
-          () => request.getFullData(
+          () => cache.getData(
             watchlistSymbolKeys,
             (data) => this.setState({data}),
           ),

@@ -9,6 +9,7 @@ const PopupTableRow = (props) => {
         <PopupTableCell
           isDelta={column.isDelta}
           isPercentage={column.isPercentage}
+          key={column.key}
           value={props.data[column.dataKey]}
         />
       );
