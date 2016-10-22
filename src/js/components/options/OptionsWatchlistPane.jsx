@@ -42,6 +42,7 @@ class OptionsWatchlistPane extends React.Component {
     super(props);
     this.state = {
       watchlist: null,
+      watchlistErrorType: null,
       selectedSymbolKeys: [],
       watchlistSymbolKeys: null,
       autoCompleteErrorText: null,
@@ -51,18 +52,37 @@ class OptionsWatchlistPane extends React.Component {
   componentDidMount() {
     getWatchlist((watchlistSymbolKeys) => {
       // Query the data for the given watchlist
-      this.setState({watchlistSymbolKeys});
       request.getFullData(watchlistSymbolKeys, (data) => {
-        const watchlist = [];
-        data.forEach((datum) => {
-          watchlist.push({
-            symbol: datum.t,
-            name: datum.name,
-            market: datum.e,
-            symbolKey: datum.e + ':' + datum.t,
+        if (Array.isArray(data)) {
+          const watchlist = [];
+          data.forEach((datum) => {
+            watchlist.push({
+              symbol: datum.t,
+              name: datum.name,
+              market: datum.e,
+              symbolKey: datum.e + ':' + datum.t,
+            });
           });
-        });
-        this.setState({watchlist});
+          this.setState({
+            watchlist,
+            watchlistSymbolKeys,
+            watchlistErrorType: null,
+          });
+          return;
+        }
+
+        // error handling
+        const { ErrorType } = require('../core/ErrorPage.jsx');
+        if (data === 'Network Error') {
+          this.setState({
+            watchlistErrorType: ErrorType.NETWORK,
+          });
+        } else {
+          // TODO provide a friendly way to report errors
+          this.setState({
+            watchlistErrorType: ErrorType.UNKNOWN,
+          });
+        }
       });
     });
   }
@@ -109,7 +129,7 @@ class OptionsWatchlistPane extends React.Component {
     if (this.state.watchlistSymbolKeys.includes(symbolKeyToAdd)) {
       this.setState({
         autoCompleteErrorText:
-          <span>This symbol has already been in your watchlist.</span>,
+          <span>This symbol is already in your watchlist.</span>,
       })
       autoCompleteRef.focus();
       return;
@@ -136,6 +156,7 @@ class OptionsWatchlistPane extends React.Component {
         });
         this.setState({
           watchlist: watchlist.concat(this.state.watchlist),
+          watchlistErrorType: null,
           autoCompleteErrorText: null,
           watchlistSymbolKeys,
         });
@@ -145,6 +166,12 @@ class OptionsWatchlistPane extends React.Component {
   }
 
   renderWatchlistTable() {
+    if (this.state.watchlistErrorType) {
+      // hot loading the required module only needed
+      const ErrorPage = require('../core/ErrorPage.jsx').default;
+      return (<ErrorPage type={this.state.watchlistErrorType} />);
+    }
+
     const watchlistRows = this.state.watchlist.map(item =>
       <TableRow
         key={item.symbolKey}
@@ -171,7 +198,7 @@ class OptionsWatchlistPane extends React.Component {
   }
 
   render() {
-    if (!this.state.watchlist) {
+    if (!this.state.watchlist && !this.state.watchlistErrorType) {
       return <Spinner />;
     }
 

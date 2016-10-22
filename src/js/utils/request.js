@@ -36,6 +36,9 @@ const getData = (symbols, callback) => {
       datum.yld = +datum.yld;
     })
     callback(data);
+  })
+  .catch((error) => {
+    callback(error.message);
   });
 };
 
@@ -70,7 +73,10 @@ const getFullData = (symbols, callback) => {
       datum.pcls_fix = +datum.pcls_fix;
     })
     callback(data);
-  });
+  })
+  .catch((error) => {
+    callback(error.message);
+  });;
 };
 
 module.exports = {getData, getFullData};
