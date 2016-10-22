@@ -77,6 +77,14 @@ export const setWatchlist = (newWatchlist, callback) => {
   });
 }
 
+export const setColumns = (newColumns, callback) => {
+  const newConfig = Object.assign({}, config, {columns: newColumns});
+  chrome.storage.sync.set({APP_STORAGE_KEY: newConfig}, () => {
+    config = newConfig; // update the config in memory
+    callback(config.columns); // pass back the new watchlist
+  });
+}
+
 const saveSettings = (config) => {
   chrome.storage.sync.set(APP_STORAGE_KEY, () => {
     console.log('Saved successfully.');

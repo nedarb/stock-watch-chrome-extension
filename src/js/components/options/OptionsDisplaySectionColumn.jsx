@@ -2,12 +2,13 @@ import Checkbox from 'material-ui/Checkbox';
 import React from 'react';
 
 const OptionsDisplaySectionColumn = (props) => {
-  const columns = props.columns.map((column) =>
+  const columns = props.columns.map((column, index) =>
     <Checkbox
       {...column}
+      disabled={column.key === 'symbol'}
       key={column.key}
       labelStyle={{textAlign: 'left'}}
-      onCheck={(event, checked) => props.handleColumnCheck(column.key, checked)}
+      onCheck={(event, checked) => props.handleColumnCheck(index, checked)}
     />
   );
   return (
