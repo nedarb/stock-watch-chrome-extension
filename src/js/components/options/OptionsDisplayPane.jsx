@@ -1,4 +1,4 @@
-import { getColumns, getFontSize, setColumns } from '../../model/config.js';
+import { getColumns, getFontSize, setColumns, setFontSize } from '../../model/config.js';
 import OptionsDisplaySectionColumn from './OptionsDisplaySectionColumn.jsx';
 import OptionsDisplaySectionFontSize from './OptionsDisplaySectionFontSize.jsx';
 import React from 'react';
@@ -19,7 +19,9 @@ class OptionsDisplayPane extends React.Component {
   }
 
   handleFontSizeChange = (event, fontSize) => {
-    this.setState({fontSize});
+    setFontSize(fontSize, (fontSize) => {
+      this.setState({fontSize});
+    });
   }
 
   handleColumnCheck = (index, checked) => {

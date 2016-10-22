@@ -85,6 +85,14 @@ export const setColumns = (newColumns, callback) => {
   });
 }
 
+export const setFontSize = (newFontSize, callback) => {
+  const newConfig = Object.assign({}, config, {fontSize: newFontSize});
+  chrome.storage.sync.set({APP_STORAGE_KEY: newConfig}, () => {
+    config = newConfig; // update the config in memory
+    callback(config.fontSize); // pass back the new watchlist
+  });
+}
+
 const saveSettings = (config) => {
   chrome.storage.sync.set(APP_STORAGE_KEY, () => {
     console.log('Saved successfully.');
