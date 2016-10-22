@@ -1,4 +1,5 @@
 import { cyan500 } from 'material-ui/styles/colors';
+import { getWatchlist } from '../../model/config.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PopupTable from './PopupTable.jsx';
 import React from 'react';
@@ -12,17 +13,19 @@ class Popup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {data: null};
+    this.state = { data: null };
   }
 
   componentDidMount() {
-    this._timer = setInterval(
-      () => request.getData(
-        ['GOOGL', 'FB', 'MSFT', 'TSLA'],
-        (data) => this.setState({data}),
-      ),
-      DATA_FETCH_INTERVAL,
-    );
+    getWatchlist((watchlistSymbolKeys) => {
+      this._timer = setInterval(
+        () => request.getData(
+          watchlistSymbolKeys,
+          (data) => this.setState({data}),
+        ),
+        DATA_FETCH_INTERVAL,
+      );
+    });
   }
 
   componentWillUnmount() {
