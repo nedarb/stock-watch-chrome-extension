@@ -1,9 +1,9 @@
 import { getColumns, getFontSize, setColumns, setFontSize } from '../../model/config.js';
-import OptionsDisplaySectionColumn from './OptionsDisplaySectionColumn.jsx';
-import OptionsDisplaySectionFontSize from './OptionsDisplaySectionFontSize.jsx';
+import OptionsTabDisplaySectionColumn from './OptionsTabDisplaySectionColumn.jsx';
+import OptionsTabDisplaySectionFontSize from './OptionsTabDisplaySectionFontSize.jsx';
 import React from 'react';
 
-class OptionsDisplayPane extends React.Component {
+class OptionsTabDisplay extends React.Component {
 
   constructor(props) {
     super(props);
@@ -35,7 +35,7 @@ class OptionsDisplayPane extends React.Component {
   renderColumnsSection() {
     return !this.state.columns
       ? null
-      : <OptionsDisplaySectionColumn
+      : <OptionsTabDisplaySectionColumn
           columns={this.state.columns}
           handleColumnCheck={this.handleColumnCheck}
         />;
@@ -44,7 +44,7 @@ class OptionsDisplayPane extends React.Component {
   renderFontSizeSection() {
     return !this.state.fontSize
       ? null
-      : <OptionsDisplaySectionFontSize
+      : <OptionsTabDisplaySectionFontSize
           fontSize={this.state.fontSize}
           onChange={this.handleFontSizeChange}
         />;
@@ -61,4 +61,4 @@ class OptionsDisplayPane extends React.Component {
 
 }
 
-export default OptionsDisplayPane;
+export default OptionsTabDisplay;

@@ -4,7 +4,7 @@ import Slider from 'material-ui/Slider';
 
 const DEFAULT_FONT_SIZE = 12;
 
-const OptionsDisplaySectionFontSize = (props) => {
+const OptionsTabDisplaySectionFontSize = (props) => {
   const info = props.fontSize === DEFAULT_FONT_SIZE
     ? props.fontSize + "px (default)"
     : props.fontSize + "px";
@@ -24,4 +24,4 @@ const OptionsDisplaySectionFontSize = (props) => {
   );
 }
 
-export default OptionsDisplaySectionFontSize;
+export default OptionsTabDisplaySectionFontSize;

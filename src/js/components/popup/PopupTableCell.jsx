@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-const PopupTableColumn = (props) => {
+const PopupTableCell = (props) => {
   let className = null;
   if (isNaN(props.value) || !props.isDelta) {
     className = null;
@@ -17,14 +17,14 @@ const PopupTableColumn = (props) => {
   );
 };
 
-PopupTableColumn.propTypes = {
+PopupTableCell.propTypes = {
   isDelta: PropTypes.bool,
   isPercentage: PropTypes.bool,
 };
 
-PopupTableColumn.defaultProps = {
+PopupTableCell.defaultProps = {
   isDelta: false,
   isPercentage: false,
 };
 
-export default PopupTableColumn;
+export default PopupTableCell;

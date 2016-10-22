@@ -29,7 +29,7 @@ const textFieldStyle = {
 
 let autoCompleteRef = null;
 
-class OptionsWatchlistPane extends React.Component {
+class OptionsTabWatchlist extends React.Component {
 
   constructor(props) {
     super(props);
@@ -255,4 +255,4 @@ class OptionsWatchlistPane extends React.Component {
   }
 }
 
-export default OptionsWatchlistPane;
+export default OptionsTabWatchlist;

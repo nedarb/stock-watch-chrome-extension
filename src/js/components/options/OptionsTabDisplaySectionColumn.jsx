@@ -1,7 +1,7 @@
 import Checkbox from 'material-ui/Checkbox';
 import React from 'react';
 
-const OptionsDisplaySectionColumn = (props) => {
+const OptionsTabDisplaySectionColumn = (props) => {
   const columns = props.columns.map((column, index) =>
     <Checkbox
       {...column}
@@ -19,4 +19,4 @@ const OptionsDisplaySectionColumn = (props) => {
   );
 };
 
-export default OptionsDisplaySectionColumn;
+export default OptionsTabDisplaySectionColumn;

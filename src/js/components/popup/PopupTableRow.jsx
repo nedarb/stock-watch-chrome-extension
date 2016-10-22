@@ -1,12 +1,12 @@
-import PopupTableColumn from './PopupTableColumn.jsx';
+import PopupTableCell from './PopupTableCell.jsx';
 import React from 'react';
 
 const PopupTableRow = (props) =>
   <tr>
-    <PopupTableColumn isDelta={false} value={props.t} />
-    <PopupTableColumn isDelta={false} value={props.l} />
-    <PopupTableColumn isDelta={true} value={props.c} />
-    <PopupTableColumn
+    <PopupTableCell isDelta={false} value={props.t} />
+    <PopupTableCell isDelta={false} value={props.l} />
+    <PopupTableCell isDelta={true} value={props.c} />
+    <PopupTableCell
       isDelta={true}
       isPercentage={true}
       value={props.cp}
