@@ -1,5 +1,5 @@
 import { cyan500 } from 'material-ui/styles/colors';
-import { getWatchlist } from '../../model/config.js';
+import config from '../../model/config.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PopupTable from './PopupTable.jsx';
 import React from 'react';
@@ -17,7 +17,7 @@ class Popup extends React.Component {
   }
 
   componentDidMount() {
-    getWatchlist((watchlistSymbolKeys) => {
+    config.getWatchlist((watchlistSymbolKeys) => {
       this._timer = setInterval(
         () => request.getData(
           watchlistSymbolKeys,

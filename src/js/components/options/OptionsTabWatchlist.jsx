@@ -1,6 +1,6 @@
 import AutoComplete from 'material-ui/AutoComplete';
 import CircularProgress from 'material-ui/CircularProgress';
-import { getWatchlist, setWatchlist } from '../../model/config.js';
+import config from '../../model/config.js';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -44,7 +44,7 @@ class OptionsTabWatchlist extends React.Component {
   }
 
   componentDidMount() {
-    getWatchlist((watchlistSymbolKeys) => {
+    config.getWatchlist((watchlistSymbolKeys) => {
       // Query the data for the given watchlist
       request.getFullData(watchlistSymbolKeys, (data) => {
         if (Array.isArray(data)) {
@@ -102,7 +102,7 @@ class OptionsTabWatchlist extends React.Component {
         newWatchlistSymbolKeys.push(symbol.symbolKey);
       }
     })
-    setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
+    config.setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
       // update the watchlist data
       const newWatchlist = [];
       this.state.watchlist.forEach((symbol) => {
@@ -135,7 +135,7 @@ class OptionsTabWatchlist extends React.Component {
       symbolKeyToAdd,
       ...this.state.watchlistSymbolKeys,
     ];
-    setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
+    config.setWatchlist(newWatchlistSymbolKeys, (watchlistSymbolKeys) => {
       // update the watchlist data
       const newWatchlist = [];
       request.getFullData([symbolKeyToAdd], (data) => {

@@ -39,7 +39,7 @@ const initConfig = (callback) => {
   });
 }
 
-export const getWatchlist = (callback) => {
+const getWatchlist = (callback) => {
   if (!config) {
     initConfig((config) => {
       callback(config.watchlist);
@@ -49,7 +49,7 @@ export const getWatchlist = (callback) => {
   }
 }
 
-export const getColumns = (callback) => {
+const getColumns = (callback) => {
   if (!config) {
     initConfig((config) => {
       callback(config.columns);
@@ -59,7 +59,7 @@ export const getColumns = (callback) => {
   }
 }
 
-export const getFontSize = (callback) => {
+const getFontSize = (callback) => {
   if (!config) {
     initConfig((config) => {
       callback(config.fontSize);
@@ -69,7 +69,7 @@ export const getFontSize = (callback) => {
   }
 }
 
-export const setWatchlist = (newWatchlist, callback) => {
+const setWatchlist = (newWatchlist, callback) => {
   const newConfig = Object.assign({}, config, {watchlist: newWatchlist});
   chrome.storage.sync.set({APP_STORAGE_KEY: newConfig}, () => {
     config = newConfig; // update the config in memory
@@ -77,7 +77,7 @@ export const setWatchlist = (newWatchlist, callback) => {
   });
 }
 
-export const setColumns = (newColumns, callback) => {
+const setColumns = (newColumns, callback) => {
   const newConfig = Object.assign({}, config, {columns: newColumns});
   chrome.storage.sync.set({APP_STORAGE_KEY: newConfig}, () => {
     config = newConfig; // update the config in memory
@@ -85,7 +85,7 @@ export const setColumns = (newColumns, callback) => {
   });
 }
 
-export const setFontSize = (newFontSize, callback) => {
+const setFontSize = (newFontSize, callback) => {
   const newConfig = Object.assign({}, config, {fontSize: newFontSize});
   chrome.storage.sync.set({APP_STORAGE_KEY: newConfig}, () => {
     config = newConfig; // update the config in memory
@@ -93,8 +93,11 @@ export const setFontSize = (newFontSize, callback) => {
   });
 }
 
-const saveSettings = (config) => {
-  chrome.storage.sync.set(APP_STORAGE_KEY, () => {
-    console.log('Saved successfully.');
-  });
-}
+export default {
+  getColumns,
+  getFontSize,
+  getWatchlist,
+  setColumns,
+  setFontSize,
+  setWatchlist,
+};

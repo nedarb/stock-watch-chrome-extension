@@ -1,4 +1,4 @@
-import { getColumns, getFontSize, setColumns, setFontSize } from '../../model/config.js';
+import config from '../../model/config.js';
 import OptionsTabDisplaySectionColumn from './OptionsTabDisplaySectionColumn.jsx';
 import OptionsTabDisplaySectionFontSize from './OptionsTabDisplaySectionFontSize.jsx';
 import React from 'react';
@@ -14,12 +14,12 @@ class OptionsTabDisplay extends React.Component {
   }
 
   componentDidMount() {
-    getColumns((columns) => this.setState({columns}));
-    getFontSize((fontSize) => this.setState({fontSize}));
+    config.getColumns((columns) => this.setState({columns}));
+    config.getFontSize((fontSize) => this.setState({fontSize}));
   }
 
   handleFontSizeChange = (event, fontSize) => {
-    setFontSize(fontSize, (fontSize) => {
+    config.setFontSize(fontSize, (fontSize) => {
       this.setState({fontSize});
     });
   }
@@ -27,7 +27,7 @@ class OptionsTabDisplay extends React.Component {
   handleColumnCheck = (index, checked) => {
     const columns = [...this.state.columns];
     columns[index].checked = checked;
-    setColumns(columns, (columns) => {
+    config.setColumns(columns, (columns) => {
       this.setState({columns});
     });
   }
