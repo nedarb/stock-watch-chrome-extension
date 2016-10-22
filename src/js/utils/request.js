@@ -66,7 +66,6 @@ const getFullData = (symbols, callback) => {
       datum.lo = +datum.lo;
       datum.hi52 = +datum.hi52;
       datum.lo52 = +datum.lo52;
-      datum.mc = +datum.mc;
       datum.pe = +datum.pe;
       datum.beta = +datum.beta;
       datum.eps = +datum.eps;

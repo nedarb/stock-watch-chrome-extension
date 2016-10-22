@@ -26,6 +26,7 @@ tr:hover:not(#table-header) {
 
 td, th {
   padding: 4px 0;
+  min-width: 50px;
 }
 
 td:not(:last-child), th:not(:last-child) {

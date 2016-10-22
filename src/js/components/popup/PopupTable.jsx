@@ -1,3 +1,4 @@
+import config from '../../model/config.js';
 import PopupTableRow from './PopupTableRow.jsx';
 import React from 'react';
 import Spinner from '../core/Spinner.jsx';
@@ -19,21 +20,31 @@ const PopupTable = (props) => {
     return (<ErrorPage type={type} />);
   }
 
-  const stockRows = props.data.map(
-    stockData => <PopupTableRow key={stockData.id} {...stockData} />
+  // construct the column metadata
+  const tableHeaders = [];
+  props.columns.forEach((column) => {
+    if (column.checked) {
+      tableHeaders.push(<th>{column.popupLabel}</th>);
+    }
+  })
+
+  const rows = props.data.map(
+    datum =>
+      <PopupTableRow
+        columns={props.columns}
+        data={datum}
+        key={datum.symbolKey}
+      />
   );
   return (
     <table className="app">
       <thead>
         <tr id="table-header">
-          <th>Symbol</th>
-          <th>Price</th>
-          <th>Change$</th>
-          <th>Change%</th>
+          {tableHeaders}
         </tr>
       </thead>
       <tbody>
-        {stockRows}
+        {rows}
       </tbody>
     </table>
   );

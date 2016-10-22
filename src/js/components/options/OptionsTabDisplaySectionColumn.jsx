@@ -4,9 +4,10 @@ import React from 'react';
 const OptionsTabDisplaySectionColumn = (props) => {
   const columns = props.columns.map((column, index) =>
     <Checkbox
-      {...column}
+      checked={column.checked}
       disabled={column.key === 'symbol'}
       key={column.key}
+      label={column.optionsLabel}
       labelStyle={{textAlign: 'left'}}
       onCheck={(event, checked) => props.handleColumnCheck(index, checked)}
     />

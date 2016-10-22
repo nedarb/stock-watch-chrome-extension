@@ -13,18 +13,24 @@ class Popup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { data: null };
+    this.state = {
+      columns: null,
+      data: null,
+     };
   }
 
   componentDidMount() {
-    config.getWatchlist((watchlistSymbolKeys) => {
-      this._timer = setInterval(
-        () => request.getData(
-          watchlistSymbolKeys,
-          (data) => this.setState({data}),
-        ),
-        DATA_FETCH_INTERVAL,
-      );
+    config.getColumns((columns) => {
+      this.setState({columns});
+      config.getWatchlist((watchlistSymbolKeys) => {
+        this._timer = setInterval(
+          () => request.getFullData(
+            watchlistSymbolKeys,
+            (data) => this.setState({data}),
+          ),
+          DATA_FETCH_INTERVAL,
+        );
+      });
     });
   }
 
@@ -36,7 +42,7 @@ class Popup extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <PopupTable data={this.state.data}/>
+          <PopupTable {...this.state} />
         </div>
       </MuiThemeProvider>
     );
