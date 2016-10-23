@@ -183,7 +183,7 @@ class OptionsTabWatchlist extends React.Component {
     });
   }
 
-  renderWatchlistTable() {
+  _renderWatchlistTable() {
     if (this.state.watchlistErrorType) {
       // hot loading the required module only needed
       const ErrorPage = require('../core/ErrorPage.jsx').default;
@@ -234,7 +234,7 @@ class OptionsTabWatchlist extends React.Component {
           ref={(ref) => autoCompleteRef = ref}
           {...textFieldStyle}
         />
-        {this.renderWatchlistTable()}
+        {this._renderWatchlistTable()}
         <span className='footer'>
           <FloatingActionButton
             disabled={this.state.selectedSymbolKeys.length === 0}

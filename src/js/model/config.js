@@ -25,7 +25,7 @@ const defaultConfig = {
 
 let config = null;
 
-const initConfig = (callback) => {
+const _initConfig = (callback) => {
   chrome.storage.sync.get('APP_STORAGE_KEY', (items) => {
     if (Object.keys(items).length === 0 && items.constructor === Object) {
       const newConfig = Object.assign({}, defaultConfig); // defensive copy
@@ -42,7 +42,7 @@ const initConfig = (callback) => {
 
 const getWatchlist = (callback) => {
   if (!config) {
-    initConfig((config) => {
+    _initConfig((config) => {
       callback(config.watchlist);
     })
   } else {
@@ -52,7 +52,7 @@ const getWatchlist = (callback) => {
 
 const getColumns = (callback) => {
   if (!config) {
-    initConfig((config) => {
+    _initConfig((config) => {
       callback(config.columns);
     })
   } else {
@@ -62,7 +62,7 @@ const getColumns = (callback) => {
 
 const getFontSize = (callback) => {
   if (!config) {
-    initConfig((config) => {
+    _initConfig((config) => {
       callback(config.fontSize);
     })
   } else {

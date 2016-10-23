@@ -18,13 +18,13 @@ class OptionsTabDisplay extends React.Component {
     config.getFontSize((fontSize) => this.setState({fontSize}));
   }
 
-  handleFontSizeChange = (event, fontSize) => {
+  _handleFontSizeChange = (event, fontSize) => {
     config.setFontSize(fontSize, (fontSize) => {
       this.setState({fontSize});
     });
   }
 
-  handleColumnCheck = (index, checked) => {
+  _handleColumnCheck = (index, checked) => {
     const columns = [...this.state.columns];
     columns[index].checked = checked;
     config.setColumns(columns, (columns) => {
@@ -32,29 +32,29 @@ class OptionsTabDisplay extends React.Component {
     });
   }
 
-  renderColumnsSection() {
+  _renderColumnsSection() {
     return !this.state.columns
       ? null
       : <OptionsTabDisplaySectionColumn
           columns={this.state.columns}
-          handleColumnCheck={this.handleColumnCheck}
+          handleColumnCheck={this._handleColumnCheck}
         />;
   }
 
-  renderFontSizeSection() {
+  _renderFontSizeSection() {
     return !this.state.fontSize
       ? null
       : <OptionsTabDisplaySectionFontSize
           fontSize={this.state.fontSize}
-          onChange={this.handleFontSizeChange}
+          onChange={this._handleFontSizeChange}
         />;
   }
 
   render() {
     return (
       <div id="options-display">
-        {this.renderColumnsSection()}
-        {this.renderFontSizeSection()}
+        {this._renderColumnsSection()}
+        {this._renderFontSizeSection()}
       </div>
     );
   }
