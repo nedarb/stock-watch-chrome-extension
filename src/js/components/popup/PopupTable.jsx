@@ -48,7 +48,7 @@ const PopupTable = (props) => {
 
 PopupTable.propTypes = {
   columns: React.PropTypes.array.isRequired,
-  data: React.PropTypes.object,
+  data: React.PropTypes.any,
 };
 
 export default PopupTable;
