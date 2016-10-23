@@ -1,9 +1,7 @@
-const testWatchlist = ['NYSE:TWTR', 'NYSE:LNKD', 'NASDAQ:GOOGL', 'NASDAQ:MSFT', 'NASDAQ:FB'];
-
 export const DEFAULT_FONT_SIZE = 12;
 
 const defaultConfig = {
-  watchlist: testWatchlist,
+  watchlist: ['INDEXDJX:.DJI', 'INDEXSP:.INX', 'INDEXNASDAQ:.IXIC'],
   columns: [
     {key: 'symbol', optionsLabel: 'symbol', popupLabel: 'Symbol', isDelta: false, isPercentage: false, dataKey: 't', checked: true},
     {key: 'currentPrice', optionsLabel: 'current price', popupLabel: 'Price', isDelta: false, isPercentage: false, dataKey: 'l', checked: true},
