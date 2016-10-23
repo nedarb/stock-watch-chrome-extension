@@ -1,8 +1,6 @@
-
+import { DEFAULT_FONT_SIZE } from '../../model/config.js';
 import React from 'react';
 import Slider from 'material-ui/Slider';
-
-const DEFAULT_FONT_SIZE = 12;
 
 const OptionsTabDisplaySectionFontSize = (props) => {
   const info = props.fontSize === DEFAULT_FONT_SIZE

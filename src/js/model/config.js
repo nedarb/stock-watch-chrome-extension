@@ -1,5 +1,7 @@
 const testWatchlist = ['NYSE:TWTR', 'NYSE:LNKD', 'NASDAQ:GOOGL', 'NASDAQ:MSFT', 'NASDAQ:FB'];
 
+export const DEFAULT_FONT_SIZE = 12;
+
 const defaultConfig = {
   watchlist: testWatchlist,
   columns: [
@@ -20,7 +22,7 @@ const defaultConfig = {
     {key: 'shares', optionsLabel: 'shares', popupLabel: 'Shares', isDelta: false, isPercentage: false, dataKey: 'shares', checked: false},
     {key: 'instOwned', optionsLabel: 'institutionally owned', popupLabel: 'Inst Own', isDelta: false, isPercentage: false, dataKey: 'inst_own', checked: false},
   ],
-  fontSize: 12,
+  fontSize: DEFAULT_FONT_SIZE,
 };
 
 let config = null;
