@@ -1,13 +1,9 @@
 import config from '../../model/config.js';
 import PopupTableRow from './PopupTableRow.jsx';
 import React from 'react';
-import Spinner from '../core/Spinner.jsx';
 import './../../../css/popup.css';
 
 const PopupTable = (props) => {
-  if (!props.data) {
-    return <Spinner />;
-  }
   if (!Array.isArray(props.data) && props.data.hasOwnProperty('error')) {
     // if the data is not an array, it is an error
     const { ErrorType } = require('../core/ErrorPage.jsx');
@@ -52,7 +48,7 @@ const PopupTable = (props) => {
 
 PopupTable.propTypes = {
   columns: React.PropTypes.array.isRequired,
-  data: React.PropTypes.object.isRequired,
+  data: React.PropTypes.object,
 };
 
 export default PopupTable;
