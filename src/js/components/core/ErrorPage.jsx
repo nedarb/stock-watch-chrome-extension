@@ -28,4 +28,8 @@ const ErrorPage = (props) => {
   );
 }
 
+ErrorPage.propTypes = {
+  type: React.PropTypes.string,
+};
+
 export default ErrorPage;

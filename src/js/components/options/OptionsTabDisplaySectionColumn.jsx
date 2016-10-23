@@ -20,4 +20,9 @@ const OptionsTabDisplaySectionColumn = (props) => {
   );
 };
 
+OptionsTabDisplaySectionColumn.propTypes = {
+  columns: React.PropTypes.array.isRequired,
+  handleColumnCheck: React.PropTypes.func.isRequired,
+};
+
 export default OptionsTabDisplaySectionColumn;

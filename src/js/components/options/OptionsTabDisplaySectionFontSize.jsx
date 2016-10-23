@@ -22,4 +22,9 @@ const OptionsTabDisplaySectionFontSize = (props) => {
   );
 }
 
+OptionsTabDisplaySectionFontSize.propTypes = {
+  fontSize: React.PropTypes.number.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+};
+
 export default OptionsTabDisplaySectionFontSize;

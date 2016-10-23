@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React from 'react';
 
 const PopupTableCell = (props) => {
   let className = null;
@@ -18,13 +18,8 @@ const PopupTableCell = (props) => {
 };
 
 PopupTableCell.propTypes = {
-  isDelta: PropTypes.bool,
-  isPercentage: PropTypes.bool,
-};
-
-PopupTableCell.defaultProps = {
-  isDelta: false,
-  isPercentage: false,
+  isDelta: React.PropTypes.bool.isRequired,
+  isPercentage: React.PropTypes.bool.isRequired,
 };
 
 export default PopupTableCell;

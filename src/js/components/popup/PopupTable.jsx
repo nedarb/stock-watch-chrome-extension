@@ -50,4 +50,9 @@ const PopupTable = (props) => {
   );
 };
 
+PopupTable.propTypes = {
+  columns: React.PropTypes.array.isRequired,
+  data: React.PropTypes.object.isRequired,
+};
+
 export default PopupTable;

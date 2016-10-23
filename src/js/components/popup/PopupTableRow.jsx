@@ -20,4 +20,9 @@ const PopupTableRow = (props) => {
   );
 }
 
+PopupTableRow.propTypes = {
+  columns: React.PropTypes.array.isRequired,
+  data: React.PropTypes.object.isRequired,
+};
+
 export default PopupTableRow;
