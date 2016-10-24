@@ -1,5 +1,5 @@
 import cache from '../../utils/cache.js';
-import config from '../../model/config.js';
+import config, { DEFAULT_FETCH_INTERVAL } from '../../model/config.js';
 import ErrorPage from '../core/ErrorPage.jsx';
 import { lightBlue900, lightGreen500 } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -7,8 +7,6 @@ import PopupTable from './PopupTable.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import Spinner from '../core/Spinner.jsx';
-
-const DATA_FETCH_INTERVAL = 3000;
 
 class Popup extends React.Component {
 
@@ -32,7 +30,7 @@ class Popup extends React.Component {
             watchlistSymbolKeys,
             (data) => this.setState({data, columns, watchlistSymbolKeys}),
           ),
-          DATA_FETCH_INTERVAL,
+          DEFAULT_FETCH_INTERVAL,
         );
       });
     });

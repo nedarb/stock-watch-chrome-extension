@@ -1,4 +1,5 @@
 export const DEFAULT_FONT_SIZE = 12;
+export const DEFAULT_FETCH_INTERVAL = 3000; // 3s
 
 const defaultConfig = {
   watchlist: ['INDEXDJX:.DJI', 'INDEXSP:.INX', 'INDEXNASDAQ:.IXIC'],
