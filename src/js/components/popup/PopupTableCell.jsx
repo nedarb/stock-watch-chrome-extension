@@ -2,12 +2,15 @@ import React from 'react';
 
 const PopupTableCell = (props) => {
   let className = null;
-  if (isNaN(props.value) || !props.isDelta) {
+  if (!props.isDelta) {
     className = null;
-  } else if (props.value >= 0) {
-    className = 'color-green';
   } else {
-    className = 'color-red';
+    const value = parseFloat(props.value.replace(',' , ''));
+    if (value >= 0) {
+      className = 'color-green';
+    } else {
+      className = 'color-red';
+    }
   }
 
   return (

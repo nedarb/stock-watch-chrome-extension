@@ -8,11 +8,17 @@ import request from './request.js';
 const cache = new Map();
 let error = null;
 
+const getMax = (x, y) => {
+  const xx = parseFloat(x.replace(',',''));
+  const yy = parseFloat(y.replace(',',''));
+  return xx >= yy ? x : y;
+}
+
 const updateDataInCache = (symbolKeys, callback) => {
   // Filter the ones that are already closed, don't need to query.
   const openSymbolKeys = [];
   symbolKeys.forEach((symbolKey) => {
-    if (cache.get(symbolKey).s) {
+    if (cache.get(symbolKey).s !== '0') {
       openSymbolKeys.push(symbolKey);
     }
   });
@@ -35,10 +41,11 @@ const updateDataInCache = (symbolKeys, callback) => {
       cachedDatum.l = datum.l;
       cachedDatum.c = datum.c;
       cachedDatum.cp = datum.cp;
-      cachedDatum.lo = Math.min(cachedDatum.lo, datum.l);
-      cachedDatum.hi = Math.max(cachedDatum.hi, datum.l);
-      cachedDatum.lo52 = Math.min(cachedDatum.lo52, datum.l);
-      cachedDatum.hi52 = Math.max(cachedDatum.hi52, datum.l);
+      cachedDatum.lo = getMax(cachedDatum.lo, datum.l);
+      cachedDatum.hi = getMax(cachedDatum.hi, datum.l);
+      cachedDatum.lo52 = getMax(cachedDatum.lo52, datum.l);
+      cachedDatum.hi52 = getMax(cachedDatum.hi52, datum.l);
+      cachedDatum.s = datum.s;
     })
     error = null;
     callback();
