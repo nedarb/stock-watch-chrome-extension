@@ -1,5 +1,5 @@
 {
-  "name": "Stock Watcher -- real time stock quote",
+  "name": "Stock Watcher",
   "description": "Get real time stock prices",
   "version": "0.0.2",
   "permissions": [
