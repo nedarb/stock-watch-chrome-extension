@@ -157,7 +157,8 @@ class OptionsTabWatchlist extends React.Component {
           autoCompleteErrorText: null,
           watchlistSymbolKeys,
         });
-        autoCompleteRef.focus();
+        autoCompleteRef.refs.searchTextField.focus();
+        autoCompleteRef.refs.searchTextField.select();
       });
     });
   }
