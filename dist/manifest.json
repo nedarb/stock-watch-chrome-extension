@@ -1,7 +1,7 @@
 {
-  "name": "Real Time Stock Quote",
-  "description": "Query the current stock price",
-  "version": "0.0.1",
+  "name": "Stock Watcher -- real time stock quote",
+  "description": "Get real time stock prices",
+  "version": "0.0.2",
   "permissions": [
     "webRequest",
     "storage",
@@ -19,5 +19,6 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
+  "short_name": "Stock Watcher",
   "manifest_version": 2
 }
