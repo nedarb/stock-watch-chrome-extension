@@ -114,18 +114,29 @@ class OptionsTabWatchlist extends React.Component {
     });
   }
 
+  _focusAndSelectSearchText(): void {
+    autoCompleteRef.refs.searchTextField.focus();
+    autoCompleteRef.refs.searchTextField.select();
+  }
+
   _handleEnterNewSymbol = (autoCompleteItem, index, value) => {
     const symbolKeyToAdd = autoCompleteItem.key;
+    if (!symbolKeyToAdd || index < 0) {
+      this.setState({
+        autoCompleteErrorText:
+          <span>Invalid symbol.</span>,
+      });
+      this._focusAndSelectSearchText();
+      return;
+    }
     if (this.state.watchlistSymbolKeys.includes(symbolKeyToAdd)) {
       this.setState({
         autoCompleteErrorText:
           <span>This symbol is already in your watchlist.</span>,
       })
-      autoCompleteRef.focus();
+      this._focusAndSelectSearchText();
       return;
     }
-
-    // TODO add verification for the new symbol
 
     const newWatchlistSymbolKeys = [
       symbolKeyToAdd,
@@ -157,8 +168,7 @@ class OptionsTabWatchlist extends React.Component {
           autoCompleteErrorText: null,
           watchlistSymbolKeys,
         });
-        autoCompleteRef.refs.searchTextField.focus();
-        autoCompleteRef.refs.searchTextField.select();
+        this._focusAndSelectSearchText();
       });
     });
   }
