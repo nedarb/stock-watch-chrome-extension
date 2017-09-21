@@ -1,35 +1,34 @@
 import axios from 'axios';
 
-const getData = (symbols, callback) => {
-  axios.get('http://finance.google.com/finance/info', {
-    params: {
-      client: 'ig',
-      q: symbols.join(','),
-    }
-  })
-  .then((response) => {
-    const data = JSON.parse(response.data.slice(3));
-    callback(data);
-  })
-  .catch((error) => {
-    callback({error});
+function requestData(symbols, columnNames = ["*"]) {
+  // sanitize symbols
+  const symb = symbols.map(s => s.indexOf(':') >= 0 ? s.split(':')[1] : s);
+
+  const url = new URL('https://query.yahooapis.com/v1/public/yql'),
+    params = {
+      q: `select ${columnNames.join(',')} from yahoo.finance.quotes where symbol in (${symb.map(s => `"${s}"`).join(',')})`,
+      format: 'json',
+      env: 'store://datatables.org/alltableswithkeys',
+      callback: ''
+    };
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+  return fetch(url.toString()).then(res => res.json()).then(data => {
+    const result = data.query.results.quote;
+    return result;
+  }, error => {
+    return Promise.reject(error);
   });
+}
+
+const getData = (symbols, callback) => {
+  return getFullData(symbols, callback);
 };
 
-const getFullData = (symbols, callback) => {
-  axios.get('http://finance.google.com/finance/info', {
-    params: {
-      client: 'ig',
-      infotype: 'infoquoteall', // query full information
-      q: symbols.join(','),
-    }
-  })
-  .then((response) => {
-    const data = JSON.parse(response.data.slice(3));
-    callback(data);
-  })
-  .catch((error) => {
-    callback({error});
+const getFullData = (symbols) => {
+  return requestData(symbols).then(data => {
+    return data;
+  }, error => {
+    return Promise.reject(error);
   });
 };
 
@@ -40,16 +39,16 @@ const getAutoCompleteDataSource = (keyword, callback) => {
       q: keyword,
     }
   })
-  .then((response) => {
-    let suggestions = null;
-    if (response && response.data && response.data.matches) {
-      suggestions = response.data.matches;
-    }
-    callback(suggestions);
-  })
-  .catch((error) => {
-    callback({error});
-  });
+    .then((response) => {
+      let suggestions = null;
+      if (response && response.data && response.data.matches) {
+        suggestions = response.data.matches;
+      }
+      callback(suggestions);
+    })
+    .catch((error) => {
+      callback({ error });
+    });
 }
 
-module.exports = {getData, getFullData, getAutoCompleteDataSource};
+module.exports = { getData, getFullData, getAutoCompleteDataSource };

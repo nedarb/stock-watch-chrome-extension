@@ -9,8 +9,8 @@ const cache = new Map();
 let error = null;
 
 const getMax = (x, y) => {
-  const xx = parseFloat(x.replace(',',''));
-  const yy = parseFloat(y.replace(',',''));
+  const xx = parseFloat(x.replace(',', ''));
+  const yy = parseFloat(y.replace(',', ''));
   return xx >= yy ? x : y;
 }
 
@@ -27,7 +27,7 @@ const updateDataInCache = (symbolKeys, callback) => {
     return;
   }
 
-  request.getData(openSymbolKeys, (data) => {
+  return request.getData(openSymbolKeys, (data) => {
     if (!Array.isArray(data) && data.hasOwnProperty('error')) {
       cache.clear();
       error = data.error;
@@ -35,20 +35,22 @@ const updateDataInCache = (symbolKeys, callback) => {
       return;
     }
     data.forEach((datum) => {
-      const symbolKey = datum.e + ':' + datum.t;
+      const symbolKey = datum.symbol;
       const cachedDatum = cache.get(symbolKey);
       // update cache
       cachedDatum.l = datum.l;
       cachedDatum.c = datum.c;
       cachedDatum.cp = datum.cp;
-      cachedDatum.lo = getMax(cachedDatum.lo, datum.l);
-      cachedDatum.hi = getMax(cachedDatum.hi, datum.l);
-      cachedDatum.lo52 = getMax(cachedDatum.lo52, datum.l);
-      cachedDatum.hi52 = getMax(cachedDatum.hi52, datum.l);
+      cachedDatum.DaysLow = getMax(cachedDatum.DaysLow, datum.DaysLow);
+      cachedDatum.DaysHigh = getMax(cachedDatum.DaysHigh, datum.DaysHigh);
+      cachedDatum.YearLow = getMax(cachedDatum.YearLow, datum.YearLow);
+      cachedDatum.YearHigh = getMax(cachedDatum.YearHigh, datum.YearHigh);
       cachedDatum.s = datum.s;
     })
     error = null;
     callback();
+
+    return data;
   });
 };
 
@@ -56,7 +58,7 @@ const updateDataInCache = (symbolKeys, callback) => {
 const retrieveFromCache = (symbolKeys) => {
   const data = [];
   symbolKeys.forEach((symbolKey) => {
-      data.push(Object.assign({}, cache.get(symbolKey)));
+    data.push(Object.assign({}, cache.get(symbolKey)));
   });
   return data;
 }
@@ -73,34 +75,35 @@ const getData = (symbolKeys, callback) => {
   });
 
   if (fullFetchSymbolKeys.length === 0) {
-    updateDataInCache(minimalFetchSymbolKeys, () => {
+    return updateDataInCache(minimalFetchSymbolKeys, data => {
       if (cache.size === 0 && error) {
-        callback({error});
+        callback({ error });
+        return Promise.reject(error);
       }
-      callback(retrieveFromCache(symbolKeys));
-    })
+      return retrieveFromCache(symbolKeys);
+    });
   } else {
-    request.getFullData(fullFetchSymbolKeys, (data) => {
+    return request.getFullData(fullFetchSymbolKeys).then(data => {
       if (!Array.isArray(data) && data.hasOwnProperty('error')) {
         cache.clear();
         error = data.error;
-        callback({error});
+        callback({ error });
         return;
       }
       // Put all the data in the cache.
       data.forEach((datum) => {
-        const symbolKey = datum.e + ':' + datum.t;
+        const symbolKey = datum.symbol;
         cache.set(symbolKey, datum);
       })
       error = null;
-      updateDataInCache(minimalFetchSymbolKeys, () => {
+      return updateDataInCache(minimalFetchSymbolKeys, () => {
         if (cache.size === 0 && error) {
-          callback({error});
+          callback({ error });
         }
-        callback(retrieveFromCache(symbolKeys));
-      })
+        return retrieveFromCache(symbolKeys);
+      });
     });
   }
 };
 
-export default {getData};
+export default { getData };

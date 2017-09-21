@@ -2,20 +2,20 @@ export const DEFAULT_FONT_SIZE = 12;
 export const DEFAULT_FETCH_INTERVAL = 3000; // 3s
 
 const defaultConfig = {
-  watchlist: ['INDEXDJX:.DJI', 'INDEXSP:.INX', 'INDEXNASDAQ:.IXIC'],
+  watchlist: ['^GSPC', 'F', 'NVDA', 'MSFT'],
   columns: [
-    {key: 'symbol', optionsLabel: 'symbol', popupLabel: 'Symbol', isDelta: false, isPercentage: false, dataKey: 't', checked: true},
-    {key: 'currentPrice', optionsLabel: 'current price', popupLabel: 'Price', isDelta: false, isPercentage: false, dataKey: 'l', checked: true},
-    {key: 'changeByValue', optionsLabel: 'change by value', popupLabel: 'Change$', isDelta: true, isPercentage: false, dataKey: 'c', checked: true},
-    {key: 'changeByPercentage', optionsLabel: 'change by percentage', popupLabel: 'Change%', isDelta: true, isPercentage: true, dataKey: 'cp', checked: true},
+    {key: 'symbol', optionsLabel: 'symbol', popupLabel: 'Symbol', isDelta: false, isPercentage: false, dataKey: 'symbol', checked: true},
+    {key: 'currentPrice', optionsLabel: 'current price', popupLabel: 'Price', isDelta: false, isPercentage: false, dataKey: 'Bid', checked: true},
+    {key: 'changeByValue', optionsLabel: 'change by value', popupLabel: 'Change$', isDelta: true, isPercentage: false, dataKey: 'Change', checked: true},
+    {key: 'changeByPercentage', optionsLabel: 'change by percentage', popupLabel: 'Change%', isDelta: true, isPercentage: true, dataKey: 'PercentChange', checked: true},
     {key: 'previouslyClosedPrice', optionsLabel: 'previously closed price', popupLabel: 'Prev Price', isDelta: false, isPercentage: false, dataKey: 'pcls_fix', checked: false},
-    {key: 'openPrice', optionsLabel: 'open price', popupLabel: 'Open', isDelta: false, isPercentage: false, dataKey: 'op', checked: false},
+    {key: 'openPrice', optionsLabel: 'open price', popupLabel: 'Open', isDelta: false, isPercentage: false, dataKey: 'Open', checked: false},
     {key: 'dayLow', optionsLabel: 'day low', popupLabel: 'Day Low', isDelta: false, isPercentage: false, dataKey: 'lo', checked: false},
     {key: 'dayHigh', optionsLabel: 'day high', popupLabel: 'Day High', isDelta: false, isPercentage: false, dataKey: 'hi', checked: false},
     {key: 'fiftyTwoWeekLow', optionsLabel: '52 week low', popupLabel: '52 Wk Low', isDelta: false, isPercentage: false, dataKey: 'lo52', checked: false},
     {key: 'fiftyTwoWeekHigh', optionsLabel: '52 week high', popupLabel: '52 Wk High', isDelta: false, isPercentage: false, dataKey: 'hi52', checked: false},
     {key: 'marketCapital', optionsLabel: 'market capital', popupLabel: 'Mkt Cap', isDelta: false, isPercentage: false, dataKey: 'mc', checked: false},
-    {key: 'pe', optionsLabel: 'P/E', popupLabel: 'P/E', isDelta: false, isPercentage: false, dataKey: 'pe', checked: false},
+    {key: 'pe', optionsLabel: 'P/E', popupLabel: 'P/E', isDelta: false, isPercentage: false, dataKey: 'PERatio', checked: false},
     {key: 'beta', optionsLabel: 'Beta', popupLabel: 'Beta', isDelta: false, isPercentage: false, dataKey: 'beta', checked: false},
     {key: 'eps', optionsLabel: 'EPS', popupLabel: 'EPS', isDelta: false, isPercentage: false, dataKey: 'eps', checked: false},
     {key: 'shares', optionsLabel: 'shares', popupLabel: 'Shares', isDelta: false, isPercentage: false, dataKey: 'shares', checked: false},

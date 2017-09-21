@@ -52,10 +52,10 @@ class OptionsTabWatchlist extends React.Component {
           const watchlist = [];
           data.forEach((datum) => {
             watchlist.push({
-              symbol: datum.t,
-              name: datum.name,
+              symbol: datum.symbol,
+              name: datum.Name,
               market: datum.e,
-              symbolKey: datum.e + ':' + datum.t,
+              symbolKey: datum.symbol,
             });
           });
           this.setState({

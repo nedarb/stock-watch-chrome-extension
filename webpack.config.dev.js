@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
-  devtool: 'inline-sourcemap',
+  devtool: 'source-map',
   entry: {
     "popup.min.js": './src/js/popup.js',
     "options.min.js": './src/js/options.js'

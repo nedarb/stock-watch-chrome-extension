@@ -29,7 +29,7 @@ const PopupTable = (props) => {
       <PopupTableRow
         columns={props.columns}
         data={datum}
-        key={datum.id}
+        key={datum.id || datum.symbol}
       />
   );
   return (

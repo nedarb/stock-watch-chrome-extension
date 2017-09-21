@@ -5,11 +5,14 @@ const PopupTableCell = (props) => {
   if (!props.isDelta) {
     className = null;
   } else {
-    const value = parseFloat(props.value.replace(',' , ''));
-    if (value >= 0) {
-      className = 'color-green';
-    } else {
-      className = 'color-red';
+    const rawValue = props.value;
+    if (typeof rawValue !== 'undefined') {
+      const value = parseFloat(props.value.replace(',', ''));
+      if (value >= 0) {
+        className = 'color-green';
+      } else {
+        className = 'color-red';
+      }
     }
   }
 

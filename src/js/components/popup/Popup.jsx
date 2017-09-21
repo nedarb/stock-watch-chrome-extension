@@ -19,7 +19,7 @@ class Popup extends React.Component {
       data: null,
       fontSize: null,
       watchlistSymbolKeys: null,
-     };
+    };
   }
 
   componentDidMount() {
@@ -28,13 +28,15 @@ class Popup extends React.Component {
         this._timer = setInterval(
           () => cache.getData(
             watchlistSymbolKeys,
-            (data) => this.setState({data, columns, watchlistSymbolKeys}),
-          ),
+            (data) => { }
+          ).then(data => {
+            this.setState({ data, columns, watchlistSymbolKeys });
+          }),
           DEFAULT_FETCH_INTERVAL,
         );
       });
     });
-    config.getFontSize((fontSize) => this.setState({fontSize}));
+    config.getFontSize((fontSize) => this.setState({ fontSize }));
   }
 
   componentWillUnmount() {
@@ -47,7 +49,7 @@ class Popup extends React.Component {
 
   render() {
     let component = null;
-    const { columns, data, watchlistSymbolKeys, fontSize} = this.state;
+    const { columns, data, watchlistSymbolKeys, fontSize } = this.state;
 
     if (!fontSize || (!columns && !data && !watchlistSymbolKeys)) {
       // if nothing loaded, show loading indicator
@@ -61,10 +63,10 @@ class Popup extends React.Component {
           labelColor={lightBlue900}
           fullWidth={true}
           onClick={this._handleAddSymbolButtonClick}
-          style={{minWidth: '200px'}}
+          style={{ minWidth: '200px' }}
         />;
     } else if (columns && columns.length > 0 && data && data.length > 0 &&
-        watchlistSymbolKeys && watchlistSymbolKeys.length > 0) {
+      watchlistSymbolKeys && watchlistSymbolKeys.length > 0) {
       component = <PopupTable {...this.state} />;
     } else {
       component = <ErrorPage />;
@@ -72,7 +74,7 @@ class Popup extends React.Component {
 
     return (
       <MuiThemeProvider>
-        <div style={{fontSize}}>
+        <div style={{ fontSize }}>
           {component}
         </div>
       </MuiThemeProvider>
