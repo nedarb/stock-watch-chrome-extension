@@ -96,12 +96,14 @@ const getData = (symbolKeys, callback) => {
         cache.set(symbolKey, datum);
       })
       error = null;
-      return updateDataInCache(minimalFetchSymbolKeys, () => {
+      updateDataInCache(minimalFetchSymbolKeys, () => {
         if (cache.size === 0 && error) {
           callback({ error });
         }
         return retrieveFromCache(symbolKeys);
       });
+
+      return data;
     });
   }
 };

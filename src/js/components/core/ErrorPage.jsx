@@ -10,26 +10,30 @@ export const ErrorType = {
 const ErrorPage = (props) => {
   let desc = 'An unknown error happens, please try again later.';
   if (props.type) {
-    switch(props.type) {
+    switch (props.type) {
       case ErrorType.NETWORK:
         desc = 'We are unable to connect to the Internet.';
         break;
     }
   }
+
+  if (props.error) { desc += props.error; }
+
   return (
     <Paper
-      style={{minWidth: 300, padding: '2px 20px', textAlign: 'center'}}
+      style={{ minWidth: 300, padding: '2px 20px', textAlign: 'center' }}
       zDepth={2}>
-      <h1 style={{color: lightBlue900}}>
+      <h1 style={{ color: lightBlue900 }}>
         Oops!
       </h1>
-      <p style={{color: lightBlue900}}>{desc}</p>
+      <p style={{ color: lightBlue900 }}>{desc}</p>
     </Paper>
   );
 }
 
 ErrorPage.propTypes = {
   type: React.PropTypes.string,
+  error: React.PropTypes.string
 };
 
 export default ErrorPage;

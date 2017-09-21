@@ -32,8 +32,16 @@ class Popup extends React.Component {
           ).then(data => {
             this.setState({ data, columns, watchlistSymbolKeys });
           }),
-          DEFAULT_FETCH_INTERVAL,
+          DEFAULT_FETCH_INTERVAL
         );
+
+        // do initial fetch
+        cache.getData(
+          watchlistSymbolKeys,
+          (data) => { }
+        ).then(data => {
+          this.setState({ data, columns, watchlistSymbolKeys });
+        }, error => this.setState({ error }));
       });
     });
     config.getFontSize((fontSize) => this.setState({ fontSize }));
@@ -69,7 +77,7 @@ class Popup extends React.Component {
       watchlistSymbolKeys && watchlistSymbolKeys.length > 0) {
       component = <PopupTable {...this.state} />;
     } else {
-      component = <ErrorPage />;
+      component = <ErrorPage error={this.state.error} />;
     }
 
     return (
