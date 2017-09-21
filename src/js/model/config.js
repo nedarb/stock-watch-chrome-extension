@@ -1,8 +1,8 @@
 export const DEFAULT_FONT_SIZE = 12;
-export const DEFAULT_FETCH_INTERVAL = 3000; // 3s
+export const DEFAULT_FETCH_INTERVAL = 4000; // 3s
 
 const defaultConfig = {
-  watchlist: ['^GSPC', 'F', 'NVDA', 'MSFT'],
+  watchlist: ['^GSPC', 'F', 'NVDA', 'MSFT', 'CRM'],
   columns: [
     {key: 'symbol', optionsLabel: 'symbol', popupLabel: 'Symbol', isDelta: false, isPercentage: false, dataKey: 'symbol', checked: true},
     {key: 'currentPrice', optionsLabel: 'current price', popupLabel: 'Price', isDelta: false, isPercentage: false, dataKey: 'Bid', checked: true},
